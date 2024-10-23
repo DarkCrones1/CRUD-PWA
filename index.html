@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#317EFB">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <title>Catálogo de Motos</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Catálogo de Motos</h1>
+        <form id="motorcycle-form">
+            <input type="text" id="name-input" placeholder="Nombre" required>
+            <input type="text" id="brand-input" placeholder="Marca" required>
+            <input type="number" id="cc-input" placeholder="Cilindrada (cc)" required>
+            <input type="number" id="price-input" placeholder="Precio" required>
+            <button type="submit">Añadir Moto</button>
+        </form>
+        <h2>Motos</h2>
+        <div id="motorcycle-grid"></div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

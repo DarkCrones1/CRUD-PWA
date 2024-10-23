@@ -1,0 +1,20 @@
+{
+    "name": "Catálogo de Motos PWA",
+    "short_name": "Motos PWA",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "description": "Aplicación para gestionar un catálogo de motos con soporte offline y sincronización de datos.",
+    "icons": [
+        {
+            "src": "/images/icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
