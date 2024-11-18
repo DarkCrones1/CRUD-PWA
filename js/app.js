@@ -52,12 +52,34 @@ motorcycleForm.addEventListener('submit', (e) => {
     motorcycles.push(newMotorcycle);
     localStorage.setItem('motorcycles', JSON.stringify(motorcycles));
 
+    // Almacenar datos offline si no hay conexión
+    if (!navigator.onLine) {
+        const unsyncedMotorcycles = JSON.parse(localStorage.getItem('unsyncedMotorcycles')) || [];
+        unsyncedMotorcycles.push(newMotorcycle);
+        localStorage.setItem('unsyncedMotorcycles', JSON.stringify(unsyncedMotorcycles));
+    }
+
     // Refrescar la lista de motos después de añadir
     loadMotorcycles();
 
     // Limpiar el formulario
     motorcycleForm.reset();
 });
+
+if ('serviceWorker' in navigator && 'SyncManager' in window) {
+    navigator.serviceWorker.register('/service-worker.js')
+    .then(reg => {
+        console.log('Service Worker registrado', reg);
+
+        // Verificar si hay conexión y realizar sincronización
+        if (navigator.onLine) {
+            reg.sync.register('sync-animes');
+        }
+    })
+    .catch(error => {
+        console.error('Error al registrar el Service Worker:', error);
+    });
+}
 
 // Función para eliminar una moto del catálogo
 function deleteMotorcycle(index) {
