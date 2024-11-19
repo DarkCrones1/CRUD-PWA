@@ -8,18 +8,16 @@ self.addEventListener('install', (event) => {
               '/js/app.js',
               '/manifest.json',
               '/images/icon.png',
-              '/images/icon-512.png'
+              '/images/icon-512.png',
           ]);
       })
   );
-  console.log('Service Worker installed.');
+  console.log('Service Worker instalado.');
 });
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-      caches.match(event.request).then((response) => {
-          return response || fetch(event.request);
-      })
+      caches.match(event.request).then((response) => response || fetch(event.request))
   );
 });
 
@@ -31,10 +29,21 @@ self.addEventListener('sync', (event) => {
 
 async function syncMotorcycles() {
   const unsyncedMotorcycles = JSON.parse(localStorage.getItem('unsyncedMotorcycles')) || [];
-  // Simula el envío de datos al servidor
-  console.log('Sincronizando motos:', unsyncedMotorcycles);
-  // Una vez sincronizados, limpiar los datos offline
-  localStorage.setItem('unsyncedMotorcycles', JSON.stringify([]));
+  if (unsyncedMotorcycles.length === 0) return;
+
+  try {
+      for (const motorcycle of unsyncedMotorcycles) {
+          await fetch('http://localhost:5162/api/Moto', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(motorcycle),
+          });
+      }
+      console.log('Motos sincronizadas con éxito.');
+      localStorage.setItem('unsyncedMotorcycles', JSON.stringify([])); // Limpiar datos offline
+  } catch (error) {
+      console.error('Error al sincronizar motos:', error);
+  }
 }
 
 self.addEventListener('push', (event) => {
